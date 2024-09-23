@@ -19,7 +19,7 @@ export default function Welcome() {
       </View>
       <Animatable.View animation="fadeInUp" style={styles.containerPalavras}>
         <Text style={styles.titulo}>
-          Som Para Toda Obra. O toque perfeito para cada criação!
+          Som Para Toda Obra. O toque perfeito para cada empreitada!
         </Text>
         <Text style={styles.texto}>Faça login para começar</Text>
         <TouchableOpacity

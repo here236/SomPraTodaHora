@@ -9,7 +9,10 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
+import {useNavigation} from '@react-navigation/native';
+
 export default function Login() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Animatable.View animation="fadeInLeft" delay={500} style={styles.header}>
@@ -31,7 +34,9 @@ export default function Login() {
           style={styles.input}
         />
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Inicial')}>
           <Text style={styles.buttonText}>Acessar</Text>
         </TouchableOpacity>
 
