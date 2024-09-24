@@ -5,7 +5,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 export default function Inicial() {
   return (
     <View style={styles.container}>
-      <Text>Inicial</Text>
+      <Text>Tela em processo de criação por favo digira-se a tela perfil </Text>
     </View>
   );
 }

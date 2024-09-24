@@ -1,18 +1,48 @@
-import React from 'react';
-
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 
 export default function Login() {
   const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+
+  useEffect(() => {
+    // Carrega os dados armazenados no AsyncStorage
+    const loadStoredData = async () => {
+      const storedEmail = await AsyncStorage.getItem('@login_email');
+      const storedSenha = await AsyncStorage.getItem('@login_senha');
+      if (storedEmail) setEmail(storedEmail);
+      if (storedSenha) setSenha(storedSenha);
+    };
+
+    loadStoredData();
+  }, []);
+
+  const handleLogin = async () => {
+    if (email && senha) {
+      try {
+        await AsyncStorage.setItem('@login_email', email);
+        await AsyncStorage.setItem('@login_senha', senha);
+        Alert.alert('Sucesso', 'Login realizado com sucesso!');
+        navigation.navigate('Inicial');
+      } catch (error) {
+        Alert.alert('Erro', 'Não foi possível salvar seus dados.');
+      }
+    } else {
+      Alert.alert('Erro', 'Preencha todos os campos.');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Animatable.View animation="fadeInLeft" delay={500} style={styles.header}>
@@ -25,6 +55,8 @@ export default function Login() {
           placeholder="Digite um Email..."
           placeholderTextColor="#020"
           style={styles.input}
+          value={email}
+          onChangeText={setEmail}
         />
 
         <Text style={styles.ttl}>Senha</Text>
@@ -32,11 +64,12 @@ export default function Login() {
           placeholder="Sua Senha"
           placeholderTextColor="#020"
           style={styles.input}
+          secureTextEntry
+          value={senha}
+          onChangeText={setSenha}
         />
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Inicial')}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Acessar</Text>
         </TouchableOpacity>
 
@@ -83,6 +116,7 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 12,
     fontSize: 16,
+    color:'#000'
   },
   button: {
     backgroundColor: '#C46132',
